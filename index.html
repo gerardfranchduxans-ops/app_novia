@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#fff6f9">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <title>Nosotros ❤️</title>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css" onerror="this.onerror=null;this.href='https://unpkg.com/leaflet@1.9.4/dist/leaflet.css'">
+  <link rel="stylesheet" href="style.css?v=7">
+</head>
+<body>
+  <div id="accessScreen" class="screen-overlay">
+    <div class="splash-card">
+      <div class="heart-pulse">❤️</div>
+      <p class="eyebrow">NUESTRA APP</p>
+      <h1>Nosotros</h1>
+      <p class="splash-copy">Responde a esta pregunta para entrar a nuestra historia.</p>
+      <form id="passwordForm">
+        <label class="password-question" for="securityAnswer">¿Qué día del mes quedamos por primera vez?</label>
+        <input id="securityAnswer" class="password-input" type="text" inputmode="numeric" maxlength="2" autocomplete="off" placeholder="Tu respuesta" aria-label="Respuesta a la pregunta" aria-describedby="passwordError" required>
+        <button class="primary-btn" type="submit">Entrar ❤️</button>
+        <p id="passwordError" class="password-error" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </div>
+
+  <div id="memoriesAccessScreen" class="screen-overlay hidden">
+    <div class="splash-card">
+      <div class="heart-pulse">🔒</div>
+      <p class="eyebrow">NUESTROS RECUERDOS</p>
+      <h1>Bloqueado de momento</h1>
+      <p class="splash-copy">Esta parte estará disponible más adelante ❤️</p>
+      <button class="primary-btn" id="closeBlockedAccess" type="button">Volver a la portada</button>
+    </div>
+  </div>
+
+  <main id="home" class="home-shell hidden">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">DESDE EL 16 DE NOVIEMBRE DE 2024</p>
+        <h1>Nuestra historia <span>❤️</span></h1>
+      </div>
+    </header>
+
+    <section class="home-counter">
+      <div class="hero-label">HAN PASADO DESDE QUE NOS VIMOS POR PRIMERA VEZ</div>
+      <div class="hero-days" id="homeDays">0 días</div>
+      <div class="hero-detail" id="homeDetail">0 años · 0 meses · 0 días</div>
+    </section>
+
+    <section class="home-note">
+      <p class="eyebrow">UN MENSAJE PARA TI</p>
+      <p>Te amooo muchísimo para siempre amor. ❤️</p>
+    </section>
+
+    <section class="home-map-section">
+      <div class="section-title">
+        <div>
+          <p class="eyebrow">PRIMERA QUEDADA</p>
+          <h2>Lugares especiales de nuestra primera quedada</h2>
+        </div>
+      </div>
+      <div class="home-map-frame">
+        <div id="homeMap" aria-label="Mapa de nuestros lugares especiales"></div>
+        <div class="home-map-legend">
+          <button id="homeMapLegendToggle" class="home-map-legend-toggle" type="button" aria-expanded="false" aria-controls="homeMapLegendList">
+            <span>📍 Puntos del mapa (<span id="homeMapPointCount">0</span>)</span>
+            <span class="home-map-legend-arrow" aria-hidden="true">⌄</span>
+          </button>
+          <div id="homeMapLegendList" class="home-map-legend-list hidden" aria-label="Puntos del mapa"></div>
+        </div>
+      </div>
+      <p id="homeMapError" class="map-error hidden" role="status" aria-live="polite"></p>
+    </section>
+
+    <section class="milestones-section" aria-labelledby="milestonesTitle">
+      <div class="section-title">
+        <div>
+          <p class="eyebrow">NUESTRO CAMINO</p>
+          <h2 id="milestonesTitle">Nuestros momentos y sueños</h2>
+        </div>
+      </div>
+      <div class="milestone-grid">
+        <article class="milestone-card completed">
+          <span class="milestone-icon" aria-hidden="true">🎂</span>
+          <span class="milestone-check" aria-label="Completado">✓</span>
+          <h3>1 año juntos</h3>
+        </article>
+        <article class="milestone-card completed">
+          <span class="milestone-icon" aria-hidden="true">🥂</span>
+          <span class="milestone-check" aria-label="Completado">✓</span>
+          <h3>2 años juntos</h3>
+        </article>
+        <article class="milestone-card pending">
+          <span class="milestone-icon" aria-hidden="true">🌍</span>
+          <span class="milestone-check" aria-label="Pendiente"></span>
+          <h3>Viajar por el mundo juntos</h3>
+        </article>
+        <article class="milestone-card pending">
+          <span class="milestone-icon" aria-hidden="true">🏡</span>
+          <span class="milestone-check" aria-label="Pendiente"></span>
+          <h3>Tener una familia</h3>
+        </article>
+      </div>
+    </section>
+
+    <button class="primary-btn home-enter-btn" id="enterBtn" type="button">Entrar en nuestros recuerdos ❤️</button>
+  </main>
+
+  <div id="memoryPanel" class="memory-panel hidden" role="dialog" aria-modal="true" aria-labelledby="memoryPanelTitle">
+    <div class="memory-panel-card">
+      <header class="memory-panel-header">
+        <div>
+          <p class="eyebrow">RECUERDO DE NUESTRA PRIMERA QUEDADA</p>
+          <h2 id="memoryPanelTitle"></h2>
+        </div>
+        <button id="closeMemoryPanel" class="memory-panel-close" type="button" aria-label="Cerrar recuerdo">×</button>
+      </header>
+      <div id="memoryPanelText" class="memory-panel-text"></div>
+    </div>
+  </div>
+
+  <main id="app" class="app-shell hidden">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">DESDE EL 16 DE NOVIEMBRE DE 2024</p>
+        <h1>Nosotros <span>❤️</span></h1>
+      </div>
+      <button class="mini-heart" id="loveBtn" aria-label="Mensaje de amor">♥</button>
+    </header>
+
+    <section class="hero-counter" data-open="counter">
+      <div class="hero-orb">❤️</div>
+      <div class="hero-label">HAN PASADO DESDE QUE NOS VIMOS POR PRIMERA VEZ</div>
+      <div class="hero-days" id="heroDays">0 días</div>
+      <div class="hero-detail" id="heroDetail">0 años · 0 meses · 0 días</div>
+      <div class="tap-hint">Toca para verlo completo ✨</div>
+    </section>
+
+    <section class="section-title">
+      <div>
+        <p class="eyebrow">TODO NUESTRO EN UN SOLO SITIO</p>
+        <h2>¿Qué hacemos hoy?</h2>
+      </div>
+    </section>
+
+    <section class="icon-grid">
+      <button class="app-card card-map" data-open="map">
+        <span class="card-icon">🗺️</span><strong>Nuestro mapa</strong><small>Todos nuestros sitios</small>
+      </button>
+      <button class="app-card card-counter" data-open="counter">
+        <span class="card-icon">⏳</span><strong>¿Cuánto llevamos?</strong><small>Contador en tiempo real</small>
+      </button>
+      <button class="app-card card-games" data-open="games">
+        <span class="card-icon">🍻</span><strong>Juegos</strong><small>Verdad, reto y beber</small>
+      </button>
+      <button class="app-card card-memories" data-open="memories">
+        <span class="card-icon">📸</span><strong>Recuerdos</strong><small>Fotos y momentos</small>
+      </button>
+      <button class="app-card card-letters" data-open="letters">
+        <span class="card-icon">💌</span><strong>Notas</strong><small>Mensajes para ti</small>
+      </button>
+      <button class="app-card card-surprises" data-open="surprises">
+        <span class="card-icon">🎁</span><strong>Sorpresas</strong><small>Hay algo para ti...</small>
+      </button>
+      <button class="app-card card-secret" data-open="secret">
+        <span class="card-icon">🔐</span><strong>Solo para ti</strong><small>Una zona secreta</small>
+      </button>
+    </section>
+
+    <section class="love-note">
+      <span>♡</span>
+      <p>De todos mis sitios favoritos, mi favorito siempre vas a ser tú.</p>
+      <span>♡</span>
+    </section>
+  </main>
+
+  <div id="view" class="view hidden">
+    <header class="view-header">
+      <button class="back-btn" id="backBtn">‹</button>
+      <div><p class="eyebrow" id="viewEyebrow">NUESTRA APP</p><h2 id="viewTitle">Sección</h2></div>
+      <div class="view-spacer"></div>
+    </header>
+    <div id="viewContent"></div>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js" onerror="this.onerror=null;this.src='https://unpkg.com/leaflet@1.9.4/dist/leaflet.js'"></script>
+  <script src="data.js"></script>
+  <script src="app.js?v=7"></script>
+</body>
+</html>
